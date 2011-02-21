@@ -161,6 +161,7 @@
     if(didUpload){
         NSArray *formElements  = [xpathParser search:@"//form"];
         if(formElements && [formElements count] > 0){
+            NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
             for(TFHppleElement *element in formElements){
                 NSDictionary *attributes = [element attributes]; 
                 NSString *action = [attributes objectForKey:@"action"];
@@ -170,6 +171,7 @@
                     break;
                 }
             }
+            [pool drain];
         }
     }
     [xpathParser release];
