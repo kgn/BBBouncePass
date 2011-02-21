@@ -1,5 +1,6 @@
 BBBouncePass is an Objective-C library for uploading shots to [Dribbble](http://dribbble.com). There is no official api for doing this so BBBouncePass wraps up all the nasty raw HTTP calls required to accomplish this into a simple api.
 
+    #import "BBBouncePass.h"
     BBBouncePass *dribbble = [BBBouncePass engineWithDelegate:self];
     self.dribbble.username = @"username";
     self.dribbble.password = @"password";
