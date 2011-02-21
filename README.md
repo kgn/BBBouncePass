@@ -2,13 +2,13 @@ BBBouncePass is an Objective-C library for uploading shots to [Dribbble](http://
 
     #import "BBBouncePass.h"
     BBBouncePass *dribbble = [BBBouncePass engineWithDelegate:self];
-    self.dribbble.username = @"username";
-    self.dribbble.password = @"password";
-    [self.dribbble shootImageNamed:@"test_image.png" 
-                          withData:imageData
-                              name:@"A Test Image"
-                              tags:nil 
-            andIntroductoryComment:nil];
+    dribbble.username = @"username";
+    dribbble.password = @"password";
+    [dribbble shootImageNamed:@"test_image.png" 
+                     withData:imageData
+                         name:@"A Test Image"
+                         tags:nil 
+       andIntroductoryComment:nil];
 
 BBBouncePass was originally developed for [Coaches Loupe](https://github.com/InScopeApps/Coaches-Loupe).
 
