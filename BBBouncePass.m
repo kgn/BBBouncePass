@@ -137,11 +137,11 @@
     return self;
 }
 
-+ (id)engine{
++ (id)pass{
 	return [[[[self class] alloc] init] autorelease];
 }
 
-+ (id)engineWithDelegate:(id<BBBouncePassDelegate>)aDelegate{
++ (id)passWithDelegate:(id<BBBouncePassDelegate>)aDelegate{
 	return [[[[self class] alloc] initWithDelegate:aDelegate] autorelease];
 }
 

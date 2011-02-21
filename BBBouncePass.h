@@ -28,8 +28,8 @@
 @property (nonatomic) BOOL _isLoggedin;
 @property (retain) NSOperationQueue *operationQueue;
 
-+ (id)engine;
-+ (id)engineWithDelegate:(id<BBBouncePassDelegate>)aDelegate;
++ (id)pass;
++ (id)passWithDelegate:(id<BBBouncePassDelegate>)aDelegate;
 - (id)initWithDelegate:(id<BBBouncePassDelegate>)aDelegate;
 
 - (BOOL)isReady;
