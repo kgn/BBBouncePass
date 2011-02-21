@@ -36,7 +36,7 @@
 
 - (BOOL)isReady;
 
-//Asynchronous upload an image to dribbble,
+//Asynchronously upload an image to dribbble,
 //Delegate methods will be called when the upload is done or failes. 
 -(void)shootImageNamed:(NSString *)imageName 
               withData:(NSData *)imageData 
