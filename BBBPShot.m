@@ -12,4 +12,10 @@
 @synthesize name;
 @synthesize URL, shortURL;
 
+- (void)dealloc{
+    [name release];
+    [URL release];
+    [shortURL release];
+}
+
 @end

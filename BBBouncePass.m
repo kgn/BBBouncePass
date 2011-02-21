@@ -46,7 +46,7 @@
 }
 
 - (void)callDelegateOnMainThread:(NSDictionary *)data{
-    id object = [data objectForKey:@"object"];    
+    id object = [data objectForKey:@"object"];
     NSDictionary *shotInfo = [data objectForKey:@"shotInfo"];
     
     if([object isKindOfClass:[BBBPShot class]]){
@@ -124,6 +124,21 @@
 }
 
 #pragma -
+#pragma Supers
+
+- (void)dealloc{
+    delegate = nil;
+    
+    [username release];
+    [password release];
+    
+    [_authenticityToken release];
+    
+    [operationQueue release];
+    [super dealloc];
+}
+
+#pragma -
 #pragma Public
 
 - (id)initWithDelegate:(id<BBBouncePassDelegate>)aDelegate{
@@ -162,11 +177,6 @@
                                                                               object:shotData];
     [self.operationQueue addOperation:operation];
     [operation release];
-}
-
-- (void)dealloc{
-    delegate = nil;
-    [super dealloc];
 }
 
 @end
