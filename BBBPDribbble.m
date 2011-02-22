@@ -144,42 +144,29 @@
     [request release];
     
     //check what we got back
-    BOOL didUpload = YES;
+    BOOL didUpload = NO;
     TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
     NSArray *titleElements  = [xpathParser search:@"//title"];
     if(titleElements && [titleElements count] > 0){
         NSString *title = [[titleElements objectAtIndex:0] content];
-        if([title isEqualToString:@"Sorry, something went wrong and we're looking into it. (500)"]){
-            didUpload = NO;
-        }
-    }else{
-        didUpload = NO;
-    }
-    
-    //find the shot url
-    NSString *shotPath = nil;
-    if(didUpload){
-        NSArray *formElements  = [xpathParser search:@"//form"];
-        if(formElements && [formElements count] > 0){
-            NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-            for(TFHppleElement *element in formElements){
-                NSDictionary *attributes = [element attributes]; 
-                NSString *action = [attributes objectForKey:@"action"];
-                //ignore search
-                if(![action isEqualToString:@"/search"]){
-                    shotPath = [attributes objectForKey:@"action"];
-                    break;
-                }
-            }
-            [pool drain];
+        if(![title isEqualToString:@"Sorry, something went wrong and we're looking into it. (500)"]){
+            didUpload = YES;
         }
     }
     [xpathParser release];
     
-    return shotPath;
+    if(didUpload){
+        return [[[response URL] path] stringByDeletingLastPathComponent];
+    }
+    return nil;
 }
 
 + (BBBPShot *)publishShotAtPath:(NSString *)shotPath name:(NSString *)name tags:(NSArray *)tags introductoryComment:(NSString *)introductoryComment withAuthenticityToken:(NSString *)authenticityToken{
+    //if we dont have a name return nil, shots require a name
+    if([name isBlank]){
+        return nil;
+    }
+    
     NSString *shotURLString = [NSString stringWithFormat:@"http://dribbble.com%@", shotPath];
     NSURL *shotURL = [NSURL URLWithString:shotURLString];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:shotURL
@@ -187,13 +174,11 @@
                                                             timeoutInterval:20.0f]; 
     [request setHTTPMethod:@"POST"];
     
-    name = name ?: @"";
     introductoryComment = introductoryComment ?: @"";
     NSString *tagsString = @"";
     if(tags){
-        [tags componentsJoinedByString:@","];
+        tagsString = [tags componentsJoinedByString:@", "];
     }
-    
     NSString *bodyString = [NSString urlEncodedStringForArgs:[NSDictionary dictionaryWithObjectsAndKeys:
                                                               @"put", @"_method",
                                                               @"true", @"publish",
@@ -222,7 +207,12 @@
     NSArray *titleElements  = [xpathParser search:@"//title"];
     if(titleElements && [titleElements count] > 0){
         NSString *title = [[titleElements objectAtIndex:0] content];
+        //Check if something went wrong
         if([title isEqualToString:@"Sorry, something went wrong and we're looking into it. (500)"]){
+            didPublish = NO;
+        }
+        //Check if we are still on the edit page
+        if([title isEqualToString:@"Dribbble - Edit Shot"]){
             didPublish = NO;
         }
     }
@@ -241,14 +231,17 @@
         //build the web item
         shot = [[BBBPShot alloc] init];
         shot.name = name;
-        shot.URL = shotURL;
+        shot.URL = [response URL];
         if(shortURL){
             shot.shortURL = [NSURL URLWithString:shortURL];
         }
     }
     [xpathParser release];
     
-    return [shot autorelease];
+    if(shot){
+        return [shot autorelease];
+    }
+    return nil;
 }
 
 + (BBBPShot *)shootImageWithName:(NSString *)imageName andData:(NSData *)imageData name:(NSString *)name tags:(NSArray *)tags introductoryComment:(NSString *)introductoryComment withAuthenticityToken:(NSString *)authenticityToken{

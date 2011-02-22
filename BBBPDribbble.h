@@ -24,7 +24,7 @@
             withAuthenticityToken:(NSString *)authenticityToken;
 
 //Publish a shot with a name, tags and introductory comment.
-//Pass nil to any field you do not wish to set.
+//Name cannot be nil or blank but tags and introductory comment can be.
 //Return an object that contains information about the shot,
 //if nil is returned the publish failed.
 + (BBBPShot *)publishShotAtPath:(NSString *)shotPath 
