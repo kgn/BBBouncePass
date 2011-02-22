@@ -177,7 +177,8 @@
     introductoryComment = introductoryComment ?: @"";
     NSString *tagsString = @"";
     if(tags){
-        tagsString = [tags componentsJoinedByString:@", "];
+        //wrap all entries in quotes to ensure they are evaluated as a single tag
+        tagsString = [NSString stringWithFormat:@"\"%@\"", [tags componentsJoinedByString:@"\",\""]];
     }
     NSString *bodyString = [NSString urlEncodedStringForArgs:[NSDictionary dictionaryWithObjectsAndKeys:
                                                               @"put", @"_method",
