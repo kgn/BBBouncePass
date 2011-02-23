@@ -19,15 +19,14 @@
     @private
     NSString *_authenticityToken;
     BOOL _isLoggedin;
-    
-    NSOperationQueue *operationQueue;
+    NSOperationQueue *_operationQueue;
 }
 
 @property (copy, nonatomic) NSString *username, *password;
 @property (assign) id<BBBouncePassDelegate> delegate;
 @property (copy, nonatomic) NSString *_authenticityToken;
 @property (nonatomic) BOOL _isLoggedin;
-@property (retain) NSOperationQueue *operationQueue;
+@property (retain) NSOperationQueue *_operationQueue;
 
 + (id)pass;
 + (id)passWithDelegate:(id<BBBouncePassDelegate>)aDelegate;

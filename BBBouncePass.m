@@ -27,7 +27,7 @@
 @synthesize _authenticityToken;
 @synthesize _isLoggedin;
 @synthesize delegate;
-@synthesize operationQueue;
+@synthesize _operationQueue;
 
 #pragma -
 #pragma dribbble
@@ -134,7 +134,7 @@
     
     [_authenticityToken release];
     
-    [operationQueue release];
+    [_operationQueue release];
     [super dealloc];
 }
 
@@ -146,8 +146,8 @@
         self.delegate = aDelegate;
         self._authenticityToken = nil;
         
-        self.operationQueue = [[NSOperationQueue alloc] init];
-        [self.operationQueue setMaxConcurrentOperationCount:1];        
+        self._operationQueue = [[NSOperationQueue alloc] init];
+        [self._operationQueue setMaxConcurrentOperationCount:1];        
     }
     return self;
 }
@@ -167,7 +167,7 @@
     NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self 
                                                                             selector:@selector(synchronousShootWithData:) 
                                                                               object:shotData];
-    [self.operationQueue addOperation:operation];
+    [self._operationQueue addOperation:operation];
     [operation release];
 }
 
