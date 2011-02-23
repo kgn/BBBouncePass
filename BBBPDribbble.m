@@ -181,9 +181,21 @@
     introductoryComment = introductoryComment ?: @"";
     NSString *tagsString = @"";
     if(tags){
+        //clean the tags
+        NSMutableArray *cleanTags = [NSMutableArray arrayWithCapacity:[tags count]];
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        for(NSString *tag in tags){
+            tag = [tag stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            if(![tag isBlank]){
+                [cleanTags addObject:tag];
+            }
+        }
+        [pool drain];
+        
         //wrap all entries in quotes to ensure they are evaluated as a single tag
-        tagsString = [NSString stringWithFormat:@"\"%@\"", [tags componentsJoinedByString:@"\",\""]];
+        tagsString = [NSString stringWithFormat:@"\"%@\"", [cleanTags componentsJoinedByString:@"\", \""]];
     }
+    
     NSString *bodyString = [NSString urlEncodedStringForArgs:[NSDictionary dictionaryWithObjectsAndKeys:
                                                               @"put", @"_method",
                                                               @"true", @"publish",
