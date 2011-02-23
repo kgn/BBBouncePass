@@ -190,7 +190,7 @@
         }
         [pool drain];
         
-        //wrap all entries in quotes to ensure they are evaluated as a single tag
+        //wrap all entries in quotes to ensure they are evaluated as individual tags
         tagsString = [NSString stringWithFormat:@"\"%@\"", [cleanTags componentsJoinedByString:@"\", \""]];
     }
     
