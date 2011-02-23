@@ -183,10 +183,16 @@
     NSMutableString *path = [NSMutableString string];
     va_list args;
     va_start(args, firstString);
-    for(NSString *arg = firstString; arg != nil; arg = va_arg(args, NSString*)){
-        arg = [arg stringByTrimmingCharacters:@"/"];
-        [path appendString:[NSString stringWithFormat:@"/%@", arg]];
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    for(NSString *arg = firstString; arg != nil; arg = va_arg(args, NSString *)){
+        NSString *slash = @"/";
+        //If the arg already starts with a slash don't add another one
+        if([[arg substringToIndex:1] isEqualToString:@"/"]){
+            slash = @"";
+        }
+        [path appendString:[NSString stringWithFormat:@"%@%@", slash, arg]];
     }
+    [pool drain];
     va_end(args);
     
     NSString *urlString = [NSString stringWithFormat:@"%@%@", BBBPDribbbleURL, path];
