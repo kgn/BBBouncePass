@@ -152,14 +152,6 @@
     return self;
 }
 
-+ (id)pass{
-	return [[[[self class] alloc] init] autorelease];
-}
-
-+ (id)passWithDelegate:(id<BBBouncePassDelegate>)aDelegate{
-	return [[[[self class] alloc] initWithDelegate:aDelegate] autorelease];
-}
-
 - (BOOL)isReady{
 	return (![self.username isBlank] && ![self.password isBlank]);
 }
@@ -177,6 +169,28 @@
                                                                               object:shotData];
     [self.operationQueue addOperation:operation];
     [operation release];
+}
+
++ (id)pass{
+	return [[[[self class] alloc] init] autorelease];
+}
+
++ (id)passWithDelegate:(id<BBBouncePassDelegate>)aDelegate{
+	return [[[[self class] alloc] initWithDelegate:aDelegate] autorelease];
+}
+
++ (NSURL *)DribbbleURLWithComponents:(NSString *)firstString, ...{
+    NSMutableString *path = [NSMutableString string];
+    va_list args;
+    va_start(args, firstString);
+    for(NSString *arg = firstString; arg != nil; arg = va_arg(args, NSString*)){
+        arg = [arg stringByTrimmingCharacters:@"/"];
+        [path appendString:[NSString stringWithFormat:@"/%@", arg]];
+    }
+    va_end(args);
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BBBPDribbbleURL, path];
+    return [NSURL URLWithString:urlString];
 }
 
 @end

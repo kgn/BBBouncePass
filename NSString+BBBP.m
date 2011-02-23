@@ -62,4 +62,9 @@
     return [(NSString *)escaped autorelease];
 }
 
+- (NSString *)stringByTrimmingCharacters:(NSString *)trimCharacters{
+    NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:trimCharacters];
+    return [self stringByTrimmingCharactersInSet:characterSet];
+}
+
 @end

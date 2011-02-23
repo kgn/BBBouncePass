@@ -12,5 +12,6 @@
 
 - (BOOL)isBlank;
 - (NSString *)stringWithURLEncoding;
+- (NSString *)stringByTrimmingCharacters:(NSString *)trimCharacters;
 
 @end

@@ -7,6 +7,7 @@
 
 #import "BBBPShot.h"
 
+#define BBBPDribbbleURL @"http://dribbble.com"
 #define BBBPHTTPPOSTBoundryPrefix @"BBBouncePass"
 
 @protocol BBBouncePassDelegate;
@@ -31,6 +32,8 @@
 + (id)pass;
 + (id)passWithDelegate:(id<BBBouncePassDelegate>)aDelegate;
 - (id)initWithDelegate:(id<BBBouncePassDelegate>)aDelegate;
+
++ (NSURL *)DribbbleURLWithComponents:(NSString *)firstString, ... NS_REQUIRES_NIL_TERMINATION;
 
 - (BOOL)isReady;
 

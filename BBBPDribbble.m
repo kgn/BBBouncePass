@@ -22,7 +22,7 @@
     NSError *error;
     NSURLResponse *response;    
     NSString *token = nil;
-    NSURL *loginURL = [NSURL URLWithString:@"http://dribbble.com/session/new"];
+    NSURL *loginURL = [BBBouncePass DribbbleURLWithComponents:@"session", @"new", nil];
     NSURLRequest *request = [NSURLRequest requestWithURL:loginURL
                                              cachePolicy:NSURLRequestReloadIgnoringCacheData
                                          timeoutInterval:20.0f];
@@ -48,7 +48,7 @@
 
 + (BOOL)loginWithUsername:(NSString *)username password:(NSString *)password andAuthenticityToken:(NSString *)authenticityToken{
     BOOL didLoggedin = NO;
-    NSURL *sessionURL = [NSURL URLWithString:@"http://dribbble.com/session"];
+    NSURL *sessionURL = [BBBouncePass DribbbleURLWithComponents:@"session", nil];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:sessionURL 
                                                                 cachePolicy:NSURLRequestReloadIgnoringCacheData 
                                                             timeoutInterval:20.0f]; 
@@ -90,7 +90,7 @@
     NSString *boundry = [NSString HTTPPOSTBoundryStringWithPrefix:BBBPHTTPPOSTBoundryPrefix];
     //boundries lead with --
     NSString *boundryHeader = [NSString stringWithFormat:@"--%@", boundry];
-    NSURL *shotsURL = [NSURL URLWithString:@"http://dribbble.com/shots"];
+    NSURL *shotsURL = [BBBouncePass DribbbleURLWithComponents:@"shots", nil];
     
     //build the authenticity_token section
     NSMutableArray *authenticityArray = [[NSMutableArray alloc] init];
@@ -126,13 +126,13 @@
                                                             timeoutInterval:20.0f];
     [request setHTTPMethod:@"POST"];
     [request setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundry] forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"http://dribbble.com/shots/new" forHTTPHeaderField:@"Referer"];
-    [request setValue:@"http://dribbble.com" forHTTPHeaderField:@"Origin"];//is this needed
+    [request setValue:[[BBBouncePass DribbbleURLWithComponents:@"shots", @"new", nil] absoluteString] forHTTPHeaderField:@"Referer"];
+    [request setValue:[[BBBouncePass DribbbleURLWithComponents:nil] absoluteString] forHTTPHeaderField:@"Origin"];//is this needed
     [request setValue:[NSString stringWithFormat:@"%d", [body length]] forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody:body];
     
     //is this needed
-    NSURL *root = [NSURL URLWithString:@"http://dribbble.com"];
+    NSURL *root = [BBBouncePass DribbbleURLWithComponents:nil];
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:root];
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
     [request setAllHTTPHeaderFields:headers];
@@ -171,9 +171,7 @@
         return nil;
     }
     
-    NSString *shotURLString = [NSString stringWithFormat:@"http://dribbble.com%@", shotPath];
-    NSURL *shotURL = [NSURL URLWithString:shotURLString];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:shotURL
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[BBBouncePass DribbbleURLWithComponents:shotPath, nil]
                                                                 cachePolicy:NSURLRequestReloadIgnoringCacheData 
                                                             timeoutInterval:20.0f]; 
     [request setHTTPMethod:@"POST"];
@@ -208,7 +206,7 @@
     
     NSData *body = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
     [request setValue:[NSString stringWithFormat:@"%d", [body length]] forHTTPHeaderField:@"Content-Length"];
-    [request setValue:[NSString stringWithFormat:@"%@/edit", shotURL] forHTTPHeaderField:@"Referer"];            
+    [request setValue:[[BBBouncePass DribbbleURLWithComponents:shotPath, @"edit", nil] absoluteString] forHTTPHeaderField:@"Referer"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:body];
     
