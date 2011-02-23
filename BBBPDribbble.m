@@ -11,6 +11,10 @@
 #import "NSMutableData+BBBP.h"
 #import "TFHpple.h"
 
+#define BBBPFailedTitle @"Sorry, something went wrong and we're looking into it. (500)"
+#define BBBPHomePageTitle @"Dribbble - What are you working on?"
+#define BBBPEditShotTitle @"Dribbble - Edit Shot"
+
 @implementation BBBPDribbble
 
 //find the authenticity_token from the login page
@@ -72,7 +76,7 @@
     if(elements && [elements count] > 0){
         TFHppleElement *element = [elements objectAtIndex:0];
         //login succeeded
-        if([[element content] isEqualToString:@"Dribbble - What are you working on?"]){
+        if([[element content] isEqualToString:BBBPHomePageTitle]){
             didLoggedin = YES;
         }
     }
@@ -149,7 +153,7 @@
     NSArray *titleElements  = [xpathParser search:@"//title"];
     if(titleElements && [titleElements count] > 0){
         NSString *title = [[titleElements objectAtIndex:0] content];
-        if(![title isEqualToString:@"Sorry, something went wrong and we're looking into it. (500)"]){
+        if(![title isEqualToString:BBBPFailedTitle]){
             didUpload = YES;
         }
     }
@@ -209,11 +213,11 @@
     if(titleElements && [titleElements count] > 0){
         NSString *title = [[titleElements objectAtIndex:0] content];
         //Check if something went wrong
-        if([title isEqualToString:@"Sorry, something went wrong and we're looking into it. (500)"]){
+        if([title isEqualToString:BBBPFailedTitle]){
             didPublish = NO;
         }
         //Check if we are still on the edit page
-        if([title isEqualToString:@"Dribbble - Edit Shot"]){
+        if([title isEqualToString:BBBPEditShotTitle]){
             didPublish = NO;
         }
     }
