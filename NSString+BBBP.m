@@ -48,7 +48,7 @@
 }
 
 - (BOOL)isBlank{
-    return ([self length] == 0);
+    return (self == nil || [self length] == 0);
 }
 
 //Modified from: http://code.google.com/p/google-toolbox-for-mac/source/browse/trunk/Foundation/GTMNSString%2BURLArguments.m
