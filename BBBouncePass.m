@@ -153,7 +153,7 @@
 }
 
 - (BOOL)isReady{
-	return (![self.username isBlank] && ![self.password isBlank]);
+	return ([self.username isBlank] || [self.password isBlank]);
 }
 
 -(void)shootImageNamed:(NSString *)imageName withData:(NSData *)imageData name:(NSString *)name tags:(NSArray *)tags andIntroductoryComment:(NSString *)introductoryComment{
