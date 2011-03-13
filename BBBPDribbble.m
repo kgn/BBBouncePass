@@ -167,7 +167,7 @@
 
 + (BBBPShot *)publishShotAtPath:(NSString *)shotPath name:(NSString *)name tags:(NSArray *)tags introductoryComment:(NSString *)introductoryComment withAuthenticityToken:(NSString *)authenticityToken{
     //if we dont have a name return nil, shots require a name
-    if([name isBlank]){
+    if([name length] == 0){
         return nil;
     }
     
@@ -184,7 +184,7 @@
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         for(NSString *tag in tags){
             tag = [tag stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            if(![tag isBlank]){
+            if([tag length] > 0){
                 [cleanTags addObject:tag];
             }
         }

@@ -47,10 +47,6 @@
     return argsAndValuesString;
 }
 
-- (BOOL)isBlank{
-    return (self == nil || [self length] == 0);
-}
-
 //Modified from: http://code.google.com/p/google-toolbox-for-mac/source/browse/trunk/Foundation/GTMNSString%2BURLArguments.m
 - (NSString *)stringWithURLEncoding{
     CFStringRef escaped = 

@@ -147,13 +147,13 @@
         self._authenticityToken = nil;
         
         self._operationQueue = [[NSOperationQueue alloc] init];
-        [self._operationQueue setMaxConcurrentOperationCount:1];        
+        [self._operationQueue setMaxConcurrentOperationCount:1];
     }
     return self;
 }
 
 - (BOOL)isReady{
-	return ([self.username isBlank] || [self.password isBlank]);
+	return ([self.username length] > 0 && [self.password length] > 0);
 }
 
 -(void)shootImageNamed:(NSString *)imageName withData:(NSData *)imageData name:(NSString *)name tags:(NSArray *)tags andIntroductoryComment:(NSString *)introductoryComment{
