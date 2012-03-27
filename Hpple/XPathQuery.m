@@ -14,7 +14,7 @@
 #import <libxml/xpath.h>
 #import <libxml/xpathInternals.h>
 
-NSDictionary *DictionaryForNode(xmlNodePtr currentNode, NSMutableDictionary *parentResult)
+static NSDictionary *DictionaryForNode(xmlNodePtr currentNode, NSMutableDictionary *parentResult)
 {
   NSMutableDictionary *resultForNode = [NSMutableDictionary dictionary];
 
@@ -101,7 +101,7 @@ NSDictionary *DictionaryForNode(xmlNodePtr currentNode, NSMutableDictionary *par
   return resultForNode;
 }
 
-NSArray *PerformXPathQuery(xmlDocPtr doc, NSString *query)
+static NSArray *PerformXPathQuery(xmlDocPtr doc, NSString *query)
 {
   xmlXPathContextPtr xpathCtx;
   xmlXPathObjectPtr xpathObj;

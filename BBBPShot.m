@@ -16,6 +16,7 @@
     [name release];
     [URL release];
     [shortURL release];
+    [super dealloc];
 }
 
 @end
